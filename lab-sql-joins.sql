@@ -227,14 +227,14 @@ FROM sakila.film
 left JOIN sakila.inventory 
 USING (film_id);
 
-USE SAKILA;
 SELECT 
     film_id,
-    title,
-    CASE
+    MAX(title),
+    COUNT(inventory_id) AS 'number_of_copies',
+    MAX(CASE
         WHEN inventory_id IS NULL THEN 'unavailable'
         ELSE 'available'
-    END
+    END) AS rental_available
 FROM
     film
         LEFT JOIN
